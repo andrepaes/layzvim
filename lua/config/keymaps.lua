@@ -3,16 +3,13 @@
 -- Add any additional keymaps here
 
 vim.keymap.set("n", "<leader>sv", ":source $MYVIMRC<cr>", { noremap = true })
-vim.keymap.set("n", "<c-f>", ":Ag<space>", { noremap = true })
 vim.keymap.set("n", "<leader><leader>", ":Telescope find_files<cr>", { noremap = true })
 vim.keymap.set("n", "<leader>r", "<cmd>History<cr>", { noremap = true })
-vim.keymap.set("n", "<leader>g", "<cmd>Telescope live_grep<cr>", { noremap = true })
+--vim.keymap.set("n", "<leader>g", "<cmd>Telescope live_grep<cr>", { noremap = true })
 vim.keymap.set("n", "<leader>F", "<cmd>Telescope git_files<cr>", { noremap = true })
 vim.keymap.set("n", "<leader>co", "<cmd>Telescope lsp_document_symbols<cr>", { noremap = true })
 vim.keymap.set("n", "<leader>ca", "<cmd>Telescope lsp_workspace_symbols<cr>", { noremap = true })
 vim.keymap.set("n", "<leader>cg", "<cmd>Telescope diagnostics<cr>", { noremap = true })
-vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<cr>", { noremap = true })
-vim.keymap.set("n", "<leader>ce", "<cmd>lua vim.lsp.buf.code_action()<CR>", { noremap = true })
 vim.keymap.set("n", "<c-t>", ":tabnew<CR>", { noremap = false })
 vim.keymap.set("n", "<leader>1", "1gt", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>2", "2gt", { noremap = true })

@@ -327,11 +327,12 @@ return {
 
   -- add pyright to lspconfig
   {
-    "neovim/nvim-lspconfig",
+  "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        -- pyright will be automatically installed with mason and loaded with lspconfig
-        pyright = {},
+        elixirls = {
+          enabled = false,
+        }
       },
     },
   },
@@ -521,17 +522,7 @@ return {
     },
     cmd = {
       "Neotree",
-    },
-    keys = {
-      {
-        "<leader>f",
-        function()
-          vim.cmd.Neotree("reveal", "toggle=true", "position=left")
-        end,
-        mode = "n",
-        desc = "Toggle Neotree",
-      },
-    },
+    }
   },
   {
     "elixir-tools/elixir-tools.nvim",
@@ -553,7 +544,6 @@ return {
           vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = true, noremap = true })
           vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = true, noremap = true })
           vim.keymap.set("n", "mf", vim.lsp.buf.format, { buffer = true, noremap = true })
-          vim.keymap.set("n", "<leader>ca", "<cmd>Telescope lsp_workspace_symbols<cr>", { noremap = true })
          end,
       }
 
@@ -597,53 +587,8 @@ return {
     end,
   },
   {
-    "vim-test/vim-test",
-    event = { "BufReadPost", "BufNewFile" },
-    config = function()
-      vim.keymap.set("n", "tn", vim.cmd.TestNearest, { desc = "Run nearest test" })
-      vim.keymap.set("n", "tf", vim.cmd.TestFile, { desc = "Run test file" })
-      vim.keymap.set("n", "tS", vim.cmd.TestSuite, { desc = "Run test suite" })
-      vim.keymap.set("n", "tl", vim.cmd.TestLast, { desc = "Run last test" })
-
-      local vim_notify_notfier = function(cmd, exit)
-        if exit == 0 then
-          vim.notify("Success: " .. cmd, vim.log.levels.INFO)
-        else
-          vim.notify("Fail: " .. cmd, vim.log.levels.ERROR)
-        end
-      end
-      vim.g.motch_term_auto_close = true
-
-
-      vim.g["test#custom_strategies"] = {
-        motch = function(cmd)
-          local winnr = vim.fn.winnr()
-          require("term").open(cmd, winnr, vim_notify_notfier)
-        end,
-      }
-      vim.g["test#strategy"] = "motch"
-    end,
-  },
-  {
     "mhinz/vim-mix-format",
     {}
-  },
-  { "nvim-telescope/telescope.nvim",
-    cmd = { "Telescope" },
-    pickers = {
-      find_files = {
-        theme = "ivy",
-      },
-      live_grep = {
-        theme = "ivy",
-      },
-      git_files = {
-        theme = "ivy",
-      },
-      lsp_document_symbols = {
-        theme = "ivy",
-      },
-    }
   },
   {
     'gsuuon/note.nvim',
