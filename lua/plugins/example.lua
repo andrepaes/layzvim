@@ -530,9 +530,10 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     config = function()
       local elixir = require("elixir")
-      local nextls_opts = {
+      local nextls_opts
+      if vim.env.NEXT_NEW_VERSION == "yes" then
+       nextls_opts = {
         enable = vim.env.ELIXIR_LSP == "nextls",
-        cmd = "/home/andrepaes/Downloads/next_ls_linux_amd64",
         init_options = {
           experimental = {
             completions = {
@@ -546,6 +547,24 @@ return {
           vim.keymap.set("n", "mf", vim.lsp.buf.format, { buffer = true, noremap = true })
          end,
       }
+      else
+        nextls_opts = {
+          enable = vim.env.ELIXIR_LSP == "nextls",
+          cmd = "/home/andrepaes/Downloads/next_ls_linux_amd64",
+          init_options = {
+            experimental = {
+              completions = {
+                enable = true,
+              },
+            },
+          },
+          on_attach = function(client, bufnr)
+            vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = true, noremap = true })
+            vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = true, noremap = true })
+            vim.keymap.set("n", "mf", vim.lsp.buf.format, { buffer = true, noremap = true })
+          end,
+        }
+      end
 
       elixir.setup({
         nextls = nextls_opts,
