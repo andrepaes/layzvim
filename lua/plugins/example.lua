@@ -20,7 +20,6 @@ local function setup_elixirls(elixir_lsp, elixir)
   if elixir_lsp == "elixirls" and elixir_ls == "newest" then
     return {
       repo = "elixir-lsp/elixir-ls",
-      tag = "v0.20.0",
       settings = elixir.elixirls.settings({
         dialyzerEnabled = false,
         enableTestLenses = false,
@@ -31,7 +30,7 @@ local function setup_elixirls(elixir_lsp, elixir)
         vim.keymap.set("n", "<space>fp", ":ElixirFromPipe<cr>", { buffer = true, noremap = true })
         vim.keymap.set("n", "<space>tp", ":ElixirToPipe<cr>", { buffer = true, noremap = true })
         vim.keymap.set("v", "<space>em", ":ElixirExpandMacro<cr>", { buffer = true, noremap = true })
-        vim.keymap.set("n", "<leader>mf", vim.lsp.buf.format, { buffer = true, noremap = true })
+        vim.keymap.set("n", "mf", vim.lsp.buf.format, { buffer = true, noremap = true })
       end,
     }
   elseif elixir_lsp == "elixirls" then
@@ -47,7 +46,7 @@ local function setup_elixirls(elixir_lsp, elixir)
         vim.keymap.set("n", "<space>fp", ":ElixirFromPipe<cr>", { buffer = true, noremap = true })
         vim.keymap.set("n", "<space>tp", ":ElixirToPipe<cr>", { buffer = true, noremap = true })
         vim.keymap.set("v", "<space>em", ":ElixirExpandMacro<cr>", { buffer = true, noremap = true })
-        vim.keymap.set("n", "<leader>mf", vim.lsp.buf.format, { buffer = true, noremap = true })
+        vim.keymap.set("n", "mf", vim.lsp.buf.format, { buffer = true, noremap = true })
       end,
     }
   else
