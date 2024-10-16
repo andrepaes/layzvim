@@ -3,9 +3,9 @@
 -- Add any additional keymaps here
 
 vim.keymap.set("n", "<leader>sv", ":source $MYVIMRC<cr>", { noremap = true })
+vim.keymap.set("n", "<c-f>", ":Ag ", { noremap = true })
 vim.keymap.set("n", "<leader><leader>", ":Telescope find_files<cr>", { noremap = true })
 vim.keymap.set("n", "<leader>r", "<cmd>History<cr>", { noremap = true })
---vim.keymap.set("n", "<leader>g", "<cmd>Telescope live_grep<cr>", { noremap = true })
 vim.keymap.set("n", "<leader>F", "<cmd>Telescope git_files<cr>", { noremap = true })
 vim.keymap.set("n", "<leader>co", "<cmd>Telescope lsp_document_symbols<cr>", { noremap = true })
 vim.keymap.set("n", "<leader>cw", "<cmd>Telescope lsp_workspace_symbols<cr>", { noremap = true })

@@ -323,6 +323,10 @@ return {
       },
     },
   },
+  {
+      "kelly-lin/telescope-ag",
+      dependencies = { "nvim-telescope/telescope.nvim" },
+  },
 
   -- add pyright to lspconfig
   {
