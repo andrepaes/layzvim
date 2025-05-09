@@ -54,6 +54,38 @@ local function setup_elixirls(elixir_lsp, elixir)
   end
 end
 
+
+local function get_git_diff(staged)
+  local cmd = staged and "git diff --staged" or "git diff"
+  local handle = io.popen(cmd)
+  if not handle then
+    return ""
+  end
+
+  local result = handle:read("*a")
+  handle:close()
+  return result
+end
+
+local prompts = {
+  -- Code related prompts
+  Explain = "Please explain how the following code works.",
+  Review = "Please review the following code and provide suggestions for improvement.",
+  Tests = "Please explain how the selected code works, then generate unit tests for it.",
+  Refactor = "Please refactor the following code to improve its clarity and readability.",
+  FixCode = "Please fix the following code to make it work as intended.",
+  FixError = "Please explain the error in the following text and provide a solution.",
+  BetterNamings = "Please provide better names for the following variables and functions.",
+  Documentation = "Please provide documentation for the following code.",
+  SwaggerApiDocs = "Please provide documentation for the following API using Swagger.",
+  SwaggerJsDocs = "Please write JSDoc for the following API using Swagger.",
+  -- Text related prompts
+  Summarize = "Please summarize the following text.",
+  Spelling = "Please correct any grammar and spelling errors in the following text.",
+  Wording = "Please improve the grammar and wording of the following text.",
+  Concise = "Please rewrite the following text to make it more concise.",
+}
+
 return {
   -- add gruvbox
   { "ellisonleao/gruvbox.nvim" },
@@ -77,87 +109,87 @@ return {
   { "folke/trouble.nvim", enabled = false },
 
   -- override nvim-cmp and add cmp-emoji
-  {
-    "hrsh7th/nvim-cmp",
-    lazy = true,
-    event = "InsertEnter",
-    init = function()
-      vim.opt.completeopt = { "menu", "menuone", "noselect" }
-    end,
-    config = function()
-      local cmp = require("cmp")
-
-      cmp.setup({
-        snippet = {
-          expand = function(args)
-            -- For `vsnip` user.
-            vim.fn["vsnip#anonymous"](args.body)
-          end,
-        },
-        window = {
-          completion = cmp.config.window.bordered(),
-          documentation = cmp.config.window.bordered(),
-        },
-        mapping = cmp.mapping.preset.insert({
-          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<C-e>"] = cmp.mapping.close(),
-          ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-        }),
-        sources = {
-          { name = "lazydev" },
-          { name = "nvim_lsp" },
-          { name = "vsnip" },
-          { name = "vim-dadbod-completion" },
-          { name = "spell", keyword_length = 5 },
-          -- { name = "rg", keyword_length = 3 },
-          -- { name = "buffer", keyword_length = 3 },
-          -- { name = "emoji" },
-          { name = "path" },
-          { name = "git" },
-        },
-        formatting = {
-          format = require("lspkind").cmp_format({
-            with_text = true,
-            menu = {
-              buffer = "[Buffer]",
-              nvim_lsp = "[LSP]",
-              luasnip = "[LuaSnip]",
-              -- emoji = "[Emoji]",
-              spell = "[Spell]",
-              path = "[Path]",
-              cmdline = "[Cmd]",
-            },
-          }),
-        },
-      })
-
-      cmp.setup.cmdline(":", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline", keyword_length = 2 } }),
-      })
-    end,
-    dependencies = {
-      { "hrsh7th/cmp-cmdline", event = { "CmdlineEnter" } },
-      "f3fora/cmp-spell",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-emoji",
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-vsnip",
-      "hrsh7th/vim-vsnip",
-
-      "onsails/lspkind-nvim",
-      {
-        "petertriho/cmp-git",
-        config = function()
-          require("cmp_git").setup()
-        end,
-        dependencies = { "nvim-lua/plenary.nvim" },
-      },
-    },
-  },
+ --{
+ --  "hrsh7th/nvim-cmp",
+ --  lazy = true,
+ --  event = "InsertEnter",
+ --  init = function()
+ --    vim.opt.completeopt = { "menu", "menuone", "noselect" }
+ --  end,
+ --  config = function()
+ --    local cmp = require("cmp")
+ --
+ --    cmp.setup({
+ --      snippet = {
+ --        expand = function(args)
+ --          -- For `vsnip` user.
+ --          vim.fn["vsnip#anonymous"](args.body)
+ --        end,
+ --      },
+ --      window = {
+ --        completion = cmp.config.window.bordered(),
+ --        documentation = cmp.config.window.bordered(),
+ --      },
+ --      mapping = cmp.mapping.preset.insert({
+ --        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+ --        ["<C-f>"] = cmp.mapping.scroll_docs(4),
+ --        ["<C-Space>"] = cmp.mapping.complete(),
+ --        ["<C-e>"] = cmp.mapping.close(),
+ --        ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+ --      }),
+ --      sources = {
+ --        { name = "lazydev" },
+ --        { name = "nvim_lsp" },
+ --        { name = "vsnip" },
+ --        { name = "vim-dadbod-completion" },
+ --        { name = "spell", keyword_length = 5 },
+ --        -- { name = "rg", keyword_length = 3 },
+ --        -- { name = "buffer", keyword_length = 3 },
+ --        -- { name = "emoji" },
+ --        { name = "path" },
+ --        { name = "git" },
+ --      },
+ --      formatting = {
+ --        format = require("lspkind").cmp_format({
+ --          with_text = true,
+ --          menu = {
+ --            buffer = "[Buffer]",
+ --            nvim_lsp = "[LSP]",
+ --            luasnip = "[LuaSnip]",
+ --            -- emoji = "[Emoji]",
+ --            spell = "[Spell]",
+ --            path = "[Path]",
+ --            cmdline = "[Cmd]",
+ --          },
+ --        }),
+ --      },
+ --    })
+ --
+ --    cmp.setup.cmdline(":", {
+ --      mapping = cmp.mapping.preset.cmdline(),
+ --      sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline", keyword_length = 2 } }),
+ --    })
+ --  end,
+ --  dependencies = {
+ --    { "hrsh7th/cmp-cmdline", event = { "CmdlineEnter" } },
+ --    "f3fora/cmp-spell",
+ --    "hrsh7th/cmp-buffer",
+ --    "hrsh7th/cmp-emoji",
+ --    "hrsh7th/cmp-nvim-lsp",
+ --    "hrsh7th/cmp-path",
+ --    "hrsh7th/cmp-vsnip",
+ --    "hrsh7th/vim-vsnip",
+ --
+ --    "onsails/lspkind-nvim",
+ --    {
+ --      "petertriho/cmp-git",
+ --      config = function()
+ --        require("cmp_git").setup()
+ --      end,
+ --      dependencies = { "nvim-lua/plenary.nvim" },
+ --    },
+ --  },
+ --},
   {
     "folke/noice.nvim",
     version = "*",
@@ -631,5 +663,143 @@ return {
     },
     cmd = 'Note',
     ft = 'note'
-  }
+  },
+  {
+    "emmanueltouzery/elixir-extras.nvim",
+    lazy = true,
+    ft = "elixir",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+    },
+    keys = {
+      { "<leader>k", function() require("elixir-extras").elixir_view_docs({}) end, desc = "Elixir View Docs" },
+      { "<leader>km", function() require("elixir-extras").elixir_view_docs({ include_mix_libs = true }) end, desc = "Elixir View Docs (mix libs)" },
+      { "<leader>kc", function() require("elixir-extras").module_complete() end, desc = "Elixir Module Complete" },
+    },
+    config = function()
+      require("elixir-extras").setup_multiple_clause_gutter()
+    end,
+  },
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    dependencies = {
+      { "nvim-telescope/telescope.nvim" }, -- Use telescope for help actions
+      { "nvim-lua/plenary.nvim" },
+      {"github/copilot.vim"}
+    },
+    opts = {
+      show_help = "no",
+      prompts = prompts,
+      model = 'gemini-2.0-flash-001',
+      copilot_no_tab_map = true,
+      debug = false, -- Set to true to see response from Github Copilot API. The log file will be in ~/.local/state/nvim/CopilotChat.nvim.log.
+      disable_extra_info = "no", -- Disable extra information (e.g: system prompt, token count) in the response.
+      hide_system_prompt = "yes", -- Show user prompts only and hide system prompts.
+      proxy = "", -- Proxies requests via https or socks
+    },
+    build = function()
+      vim.notify("Please update the remote plugins by running ':UpdateRemotePlugins', then restart Neovim.")
+    end,
+    event = "VeryLazy",
+    keys = {
+      -- Show help actions with telescope
+      {
+        "<leader>ah",
+        function()
+          require("CopilotChat.code_actions").show_help_actions()
+        end,
+        desc = "CopilotChat - Help actions",
+      },
+      -- Show prompts actions with telescope
+      {
+        "<leader>ap",
+        function()
+          require("CopilotChat.code_actions").show_prompt_actions()
+        end,
+        desc = "CopilotChat - Prompt actions",
+      },
+      {
+        "<leader>ap",
+        ":lua require('CopilotChat.code_actions').show_prompt_actions(true)<CR>",
+        mode = "x",
+        desc = "CopilotChat - Prompt actions",
+      },
+      -- Code related commands
+      { "<leader>ae", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
+      { "<leader>at", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
+      { "<leader>ar", "<cmd>CopilotChatReview<cr>", desc = "CopilotChat - Review code" },
+      { "<leader>aR", "<cmd>CopilotChatRefactor<cr>", desc = "CopilotChat - Refactor code" },
+      { "<leader>an", "<cmd>CopilotChatBetterNamings<cr>", desc = "CopilotChat - Better Naming" },
+      -- Chat with Copilot in visual mode
+      {
+        "<leader>av",
+        ":CopilotChatVisual",
+        mode = "x",
+        desc = "CopilotChat - Open in vertical split",
+      },
+      {
+        "<leader>ax",
+        ":CopilotChatInPlace<cr>",
+        mode = "x",
+        desc = "CopilotChat - Run in-place code",
+      },
+      -- Custom input for CopilotChat
+      {
+        "<leader>ai",
+        function()
+          local input = vim.fn.input("Ask Copilot: ")
+          if input ~= "" then
+            vim.cmd("CopilotChat " .. input)
+          end
+        end,
+        desc = "CopilotChat - Ask input",
+      },
+      -- Generate commit message based on the git diff
+      {
+        "<leader>am",
+        function()
+          local diff = get_git_diff()
+          if diff ~= "" then
+            vim.fn.setreg('"', diff)
+            vim.cmd("CopilotChat Write commit message for the change with commitizen convention.")
+          end
+        end,
+        desc = "CopilotChat - Generate commit message for all changes",
+      },
+      {
+        "<leader>aM",
+        function()
+          local diff = get_git_diff(true)
+          if diff ~= "" then
+            vim.fn.setreg('"', diff)
+            vim.cmd("CopilotChat Write commit message for the change with commitizen convention.")
+          end
+        end,
+        desc = "CopilotChat - Generate commit message for staged changes",
+      },
+      -- Quick chat with Copilot
+      {
+        "<leader>aq",
+        function()
+          local input = vim.fn.input("Quick Chat: ")
+          if input ~= "" then
+            vim.cmd("CopilotChatBuffer " .. input)
+          end
+        end,
+        desc = "CopilotChat - Quick chat",
+      },
+      -- Debug
+      { "<leader>ad", "<cmd>CopilotChatDebugInfo<cr>", desc = "CopilotChat - Debug Info" },
+      -- Fix the issue with diagnostic
+      { "<leader>af", "<cmd>CopilotChatFixDiagnostic<cr>", desc = "CopilotChat - Fix Diagnostic" },
+      { "<leader>aF", "<cmd>CopilotChatFixError<cr>", desc = "CopilotChat - Fix Error" },
+      -- Clear buffer and chat history
+      { "<leader>al", "<cmd>CopilotChatReset<cr>", desc = "CopilotChat - Clear buffer and chat history" },
+      -- Toggle Copilot Chat Vsplit
+      { "<leader>av", "<cmd>CopilotChatVsplitToggle<cr>", desc = "CopilotChat - Toggle Vsplit" },
+    },
+  },
+  {
+    "VPavliashvili/json-nvim"
+  },
 }

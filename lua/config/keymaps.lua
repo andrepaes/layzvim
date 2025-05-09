@@ -26,3 +26,5 @@ vim.keymap.set("n", "qp", vim.cmd.cprev, { desc = "Go to the previous item in th
 vim.keymap.set("n", "qn", vim.cmd.cnext, { desc = "Go to the next item in the quickfix list." })
 vim.keymap.set("n", "<leader>cx", ":w <bar> %bd <bar> e# <bar> bd# <CR>", { desc = "Close quickfix list" })
 vim.keymap.set("n", "qq", vim.cmd.ccl, { desc = "Close quickfix list" })
+vim.keymap.set("i", "<c-j>", 'copilot#Accept("")', { expr=true, noremap = true, silent = true, replace_keycodes = false })
+vim.keymap.set("n", "<leader>jff", '<cmd>JsonFormatFile<cr>')
