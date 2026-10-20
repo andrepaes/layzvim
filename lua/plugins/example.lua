@@ -13,7 +13,7 @@ local fzf = function(func)
   end
 end
 
-local elixirls_old = vim.fn.expand("~/Downloads/elixir-ls-1.12-23.3/language_server.sh")
+local elixirls_old = vim.fn.expand("~/Downloads/elixir-ls-v0.26.4/language_server.sh")
 local elixir_ls = vim.env.ELIXIR_LS
 
 local function setup_elixirls(elixir_lsp, elixir)
@@ -54,7 +54,6 @@ local function setup_elixirls(elixir_lsp, elixir)
   end
 end
 
-
 local function get_git_diff(staged)
   local cmd = staged and "git diff --staged" or "git diff"
   local handle = io.popen(cmd)
@@ -88,13 +87,13 @@ local prompts = {
 
 return {
   -- add gruvbox
-  { "ellisonleao/gruvbox.nvim" },
+  { "sainnhe/gruvbox-material" },
 
   -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "gruvbox",
+      colorscheme = "gruvbox-material",
     },
   },
 
@@ -109,87 +108,87 @@ return {
   { "folke/trouble.nvim", enabled = false },
 
   -- override nvim-cmp and add cmp-emoji
- --{
- --  "hrsh7th/nvim-cmp",
- --  lazy = true,
- --  event = "InsertEnter",
- --  init = function()
- --    vim.opt.completeopt = { "menu", "menuone", "noselect" }
- --  end,
- --  config = function()
- --    local cmp = require("cmp")
- --
- --    cmp.setup({
- --      snippet = {
- --        expand = function(args)
- --          -- For `vsnip` user.
- --          vim.fn["vsnip#anonymous"](args.body)
- --        end,
- --      },
- --      window = {
- --        completion = cmp.config.window.bordered(),
- --        documentation = cmp.config.window.bordered(),
- --      },
- --      mapping = cmp.mapping.preset.insert({
- --        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
- --        ["<C-f>"] = cmp.mapping.scroll_docs(4),
- --        ["<C-Space>"] = cmp.mapping.complete(),
- --        ["<C-e>"] = cmp.mapping.close(),
- --        ["<C-y>"] = cmp.mapping.confirm({ select = true }),
- --      }),
- --      sources = {
- --        { name = "lazydev" },
- --        { name = "nvim_lsp" },
- --        { name = "vsnip" },
- --        { name = "vim-dadbod-completion" },
- --        { name = "spell", keyword_length = 5 },
- --        -- { name = "rg", keyword_length = 3 },
- --        -- { name = "buffer", keyword_length = 3 },
- --        -- { name = "emoji" },
- --        { name = "path" },
- --        { name = "git" },
- --      },
- --      formatting = {
- --        format = require("lspkind").cmp_format({
- --          with_text = true,
- --          menu = {
- --            buffer = "[Buffer]",
- --            nvim_lsp = "[LSP]",
- --            luasnip = "[LuaSnip]",
- --            -- emoji = "[Emoji]",
- --            spell = "[Spell]",
- --            path = "[Path]",
- --            cmdline = "[Cmd]",
- --          },
- --        }),
- --      },
- --    })
- --
- --    cmp.setup.cmdline(":", {
- --      mapping = cmp.mapping.preset.cmdline(),
- --      sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline", keyword_length = 2 } }),
- --    })
- --  end,
- --  dependencies = {
- --    { "hrsh7th/cmp-cmdline", event = { "CmdlineEnter" } },
- --    "f3fora/cmp-spell",
- --    "hrsh7th/cmp-buffer",
- --    "hrsh7th/cmp-emoji",
- --    "hrsh7th/cmp-nvim-lsp",
- --    "hrsh7th/cmp-path",
- --    "hrsh7th/cmp-vsnip",
- --    "hrsh7th/vim-vsnip",
- --
- --    "onsails/lspkind-nvim",
- --    {
- --      "petertriho/cmp-git",
- --      config = function()
- --        require("cmp_git").setup()
- --      end,
- --      dependencies = { "nvim-lua/plenary.nvim" },
- --    },
- --  },
- --},
+  --{
+  --  "hrsh7th/nvim-cmp",
+  --  lazy = true,
+  --  event = "InsertEnter",
+  --  init = function()
+  --    vim.opt.completeopt = { "menu", "menuone", "noselect" }
+  --  end,
+  --  config = function()
+  --    local cmp = require("cmp")
+  --
+  --    cmp.setup({
+  --      snippet = {
+  --        expand = function(args)
+  --          -- For `vsnip` user.
+  --          vim.fn["vsnip#anonymous"](args.body)
+  --        end,
+  --      },
+  --      window = {
+  --        completion = cmp.config.window.bordered(),
+  --        documentation = cmp.config.window.bordered(),
+  --      },
+  --      mapping = cmp.mapping.preset.insert({
+  --        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+  --        ["<C-f>"] = cmp.mapping.scroll_docs(4),
+  --        ["<C-Space>"] = cmp.mapping.complete(),
+  --        ["<C-e>"] = cmp.mapping.close(),
+  --        ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+  --      }),
+  --      sources = {
+  --        { name = "lazydev" },
+  --        { name = "nvim_lsp" },
+  --        { name = "vsnip" },
+  --        { name = "vim-dadbod-completion" },
+  --        { name = "spell", keyword_length = 5 },
+  --        -- { name = "rg", keyword_length = 3 },
+  --        -- { name = "buffer", keyword_length = 3 },
+  --        -- { name = "emoji" },
+  --        { name = "path" },
+  --        { name = "git" },
+  --      },
+  --      formatting = {
+  --        format = require("lspkind").cmp_format({
+  --          with_text = true,
+  --          menu = {
+  --            buffer = "[Buffer]",
+  --            nvim_lsp = "[LSP]",
+  --            luasnip = "[LuaSnip]",
+  --            -- emoji = "[Emoji]",
+  --            spell = "[Spell]",
+  --            path = "[Path]",
+  --            cmdline = "[Cmd]",
+  --          },
+  --        }),
+  --      },
+  --    })
+  --
+  --    cmp.setup.cmdline(":", {
+  --      mapping = cmp.mapping.preset.cmdline(),
+  --      sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline", keyword_length = 2 } }),
+  --    })
+  --  end,
+  --  dependencies = {
+  --    { "hrsh7th/cmp-cmdline", event = { "CmdlineEnter" } },
+  --    "f3fora/cmp-spell",
+  --    "hrsh7th/cmp-buffer",
+  --    "hrsh7th/cmp-emoji",
+  --    "hrsh7th/cmp-nvim-lsp",
+  --    "hrsh7th/cmp-path",
+  --    "hrsh7th/cmp-vsnip",
+  --    "hrsh7th/vim-vsnip",
+  --
+  --    "onsails/lspkind-nvim",
+  --    {
+  --      "petertriho/cmp-git",
+  --      config = function()
+  --        require("cmp_git").setup()
+  --      end,
+  --      dependencies = { "nvim-lua/plenary.nvim" },
+  --    },
+  --  },
+  --},
   {
     "folke/noice.nvim",
     version = "*",
@@ -253,6 +252,13 @@ return {
         },
         {
           filter = { find = "Scanning" },
+          opts = { skip = true },
+        },
+        {
+          filter = {
+            event = "notify",
+            find = "Spawning",
+          },
           opts = { skip = true },
         },
       },
@@ -323,6 +329,7 @@ return {
       })
     end,
     keys = {
+      { "<leader><leader>", false },
       { "<c-p>", fzf("files"), desc = "Find files" },
       { "<space>p", fzf("git_status"), desc = "Find of changes files" },
       {
@@ -342,13 +349,12 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     keys = {
-      -- add a keymap to browse plugin files
-      -- stylua: ignore
+      { "<leader><leader>", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
     },
     -- change some options
     opts = {
       defaults = {
-        layout_strategy = "horizontal",
+        layout_strategy = "vertical",
         layout_config = { prompt_position = "top" },
         sorting_strategy = "ascending",
         winblend = 0,
@@ -356,20 +362,56 @@ return {
     },
   },
   {
-      "kelly-lin/telescope-ag",
-      dependencies = { "nvim-telescope/telescope.nvim" },
+    "kelly-lin/telescope-ag",
+    dependencies = { "nvim-telescope/telescope.nvim" },
   },
-
   -- add pyright to lspconfig
   {
-  "neovim/nvim-lspconfig",
-    opts = {
-      servers = {
-        elixirls = {
-          enabled = false,
+    "neovim/nvim-lspconfig",
+    opts = function(_, opts)
+      local configs = require("lspconfig.configs")
+      if not configs.expert then
+        configs.expert = {
+          default_config = {
+            cmd = { vim.fn.expand("~/.local/share/expert-nightly/start_expert"), "--stdio" },
+            filetypes = { "elixir", "eelixir", "heex" },
+            root_dir = require("lspconfig").util.root_pattern("mix.exs", ".git"),
+          },
         }
-      },
+      end
+
+      opts.servers = opts.servers or {}
+      opts.servers.elixirls = { enabled = false }
+      opts.servers.lexical = { enabled = false }
+      opts.servers.expert = {
+        on_attach = function(client, bufnr)
+          vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = true, noremap = true })
+          vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = true, noremap = true })
+          vim.keymap.set("n", "mf", vim.lsp.buf.format, { buffer = true, noremap = true })
+        end,
+      }
+
+      return opts
+    end,
+  },
+  {
+    "kdheepak/lazygit.nvim",
+    lazy = false,
+    cmd = {
+      "LazyGit",
+      "LazyGitConfig",
+      "LazyGitCurrentFile",
+      "LazyGitFilter",
+      "LazyGitFilterCurrentFile",
     },
+    -- optional for floating window border decoration
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "nvim-lua/plenary.nvim",
+    },
+    config = function()
+      require("telescope").load_extension("lazygit")
+    end,
   },
 
   -- for typescript, LazyVim also includes extra specs to properly setup lspconfig,
@@ -432,27 +474,27 @@ return {
     opts = function()
       return {
         {
-            icons_enabled = true,
-            theme = "gruvbox",
-            component_separators = { left = "", right = "" },
-            section_separators = { left = "", right = "" },
-            ignore_focus = {},
-            always_divide_middle = true,
-            globalstatus = true,
-            refresh = {
-              statusline = 1000,
-              tabline = 1000,
-              winbar = 1000,
-            },
+          icons_enabled = true,
+          theme = "gruvbox-material",
+          component_separators = { left = "", right = "" },
+          section_separators = { left = "", right = "" },
+          ignore_focus = {},
+          always_divide_middle = true,
+          globalstatus = true,
+          refresh = {
+            statusline = 1000,
+            tabline = 1000,
+            winbar = 1000,
           },
-          sections = {
-            lualine_a = { "session_name" },
-            lualine_c = { { "filename", path = 1 } },
-            lualine_x = { "selectioncount", "searchcount", "encoding", "fileformat", "filetype" },
-          },
+        },
+        sections = {
+          lualine_a = { "session_name" },
+          lualine_c = { { "filename", path = 1 } },
+          lualine_x = { "selectioncount", "searchcount", "encoding", "fileformat", "filetype" },
+        },
 
-          extensions = { "fzf" },
-        }
+        extensions = { "fzf" },
+      }
     end,
   },
 
@@ -471,23 +513,6 @@ return {
         "shellcheck",
         "shfmt",
         "flake8",
-      },
-    },
-  },
-  {
-    "mhanberg/output-panel.nvim",
-    enable = false,
-    event = "VeryLazy",
-    -- dev = true,
-    config = function()
-      require("output_panel").setup()
-    end,
-    keys = {
-      {
-        "<leader>o",
-        vim.cmd.OutputPanel,
-        mode = "n",
-        desc = "Toggle the output panel",
       },
     },
   },
@@ -534,6 +559,7 @@ return {
     opts = {
       filesystem = {
         filtered_items = {
+          visible = true,
           hide_dotfiles = false,
         },
       },
@@ -557,7 +583,7 @@ return {
     },
     cmd = {
       "Neotree",
-    }
+    },
   },
   {
     "elixir-tools/elixir-tools.nvim",
@@ -566,26 +592,9 @@ return {
     config = function()
       local elixir = require("elixir")
       local nextls_opts
-      if vim.env.NEXT_NEW_VERSION == "yes" then
-       nextls_opts = {
-        enable = vim.env.ELIXIR_LSP == "nextls",
-        init_options = {
-          experimental = {
-            completions = {
-              enable = true,
-            },
-          },
-        },
-        on_attach = function(client, bufnr)
-          vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = true, noremap = true })
-          vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = true, noremap = true })
-          vim.keymap.set("n", "mf", vim.lsp.buf.format, { buffer = true, noremap = true })
-         end,
-      }
-      else
+      if vim.env.NEXT_NEW_VERSION == "yes" and vim.env.ELIXIR_LSP == "nextls" then
         nextls_opts = {
           enable = vim.env.ELIXIR_LSP == "nextls",
-          cmd = "/home/andrepaes/Downloads/next_ls_linux_amd64",
           init_options = {
             experimental = {
               completions = {
@@ -599,11 +608,15 @@ return {
             vim.keymap.set("n", "mf", vim.lsp.buf.format, { buffer = true, noremap = true })
           end,
         }
+      else
+        nextls_opts = {
+          enable = false,
+        }
       end
-
       elixir.setup({
         nextls = nextls_opts,
         credo = { enable = false },
+        lexical = { enable = false },
         elixirls = setup_elixirls(vim.env.ELIXIR_LSP, elixir),
       })
     end,
@@ -611,6 +624,25 @@ return {
       "nvim-lua/plenary.nvim",
       "mhanberg/workspace-folders.nvim",
     },
+  },
+  {
+    "mhanberg/output-panel.nvim",
+    version = "*",
+    event = "VeryLazy",
+    config = function()
+      require("output_panel").setup({
+        max_buffer_size = 5000 -- default
+      })
+    end,
+    cmd = { "OutputPanel" },
+    keys = {
+      {
+        "<leader>o",
+        vim.cmd.OutputPanel,
+        mode = "n",
+        desc = "Toggle the output panel",
+      },
+    }
   },
   {
     "vim-test/vim-test",
@@ -630,7 +662,6 @@ return {
       end
       vim.g.motch_term_auto_close = true
 
-
       vim.g["test#custom_strategies"] = {
         motch = function(cmd)
           local winnr = vim.fn.winnr()
@@ -642,27 +673,27 @@ return {
   },
   {
     "mhinz/vim-mix-format",
-    {}
+    {},
   },
   {
-    'gsuuon/note.nvim',
+    "gsuuon/note.nvim",
     opts = {
       -- opts.spaces are note workspace parent directories.
       -- These directories contain a `notes` directory which will be created if missing.
       -- `<space path>/notes` acts as the note root, so for space '~' the note root is `~/notes`.
       -- Defaults to { '~' }.
       spaces = {
-        '~',
+        "~",
         -- '~/projects/foo'
       },
 
       -- Set keymap = false to disable keymapping
-      -- keymap = { 
+      -- keymap = {
       --   prefix = '<leader>n'
       -- }
     },
-    cmd = 'Note',
-    ft = 'note'
+    cmd = "Note",
+    ft = "note",
   },
   {
     "emmanueltouzery/elixir-extras.nvim",
@@ -672,9 +703,27 @@ return {
       "nvim-telescope/telescope.nvim",
     },
     keys = {
-      { "<leader>k", function() require("elixir-extras").elixir_view_docs({}) end, desc = "Elixir View Docs" },
-      { "<leader>km", function() require("elixir-extras").elixir_view_docs({ include_mix_libs = true }) end, desc = "Elixir View Docs (mix libs)" },
-      { "<leader>kc", function() require("elixir-extras").module_complete() end, desc = "Elixir Module Complete" },
+      {
+        "<leader>k",
+        function()
+          require("elixir-extras").elixir_view_docs({})
+        end,
+        desc = "Elixir View Docs",
+      },
+      {
+        "<leader>km",
+        function()
+          require("elixir-extras").elixir_view_docs({ include_mix_libs = true })
+        end,
+        desc = "Elixir View Docs (mix libs)",
+      },
+      {
+        "<leader>kc",
+        function()
+          require("elixir-extras").module_complete()
+        end,
+        desc = "Elixir Module Complete",
+      },
     },
     config = function()
       require("elixir-extras").setup_multiple_clause_gutter()
@@ -682,15 +731,16 @@ return {
   },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
+    enable = false,
     dependencies = {
       { "nvim-telescope/telescope.nvim" }, -- Use telescope for help actions
       { "nvim-lua/plenary.nvim" },
-      {"github/copilot.vim"}
+      { "github/copilot.vim" },
     },
     opts = {
       show_help = "no",
       prompts = prompts,
-      model = 'gemini-2.0-flash-001',
+      model = "gemini-2.0-flash-001",
       copilot_no_tab_map = true,
       debug = false, -- Set to true to see response from Github Copilot API. The log file will be in ~/.local/state/nvim/CopilotChat.nvim.log.
       disable_extra_info = "no", -- Disable extra information (e.g: system prompt, token count) in the response.
@@ -800,6 +850,122 @@ return {
     },
   },
   {
-    "VPavliashvili/json-nvim"
+    "VPavliashvili/json-nvim",
   },
+  {
+    "hugooliveirad/annotate.nvim",
+    opts = {},
+    keys = {
+      { "<leader>ra", mode = "v", desc = "Add annotation" },
+      { "<leader>rl", desc = "List annotations" },
+      { "<leader>rs", desc = "Search annotations (Telescope)" },
+      { "<leader>rn", desc = "Next annotation" },
+      { "<leader>rp", desc = "Previous annotation" },
+    },
+    cmd = { "Annotate", "AnnotateAdd", "AnnotateList" },
+  },
+  {
+    "esmuellert/codediff.nvim",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    cmd = "CodeDiff",
+    opts = {
+      -- Highlight configuration
+      highlights = {
+        -- Line-level: accepts highlight group names or hex colors (e.g., "#2ea043")
+        line_insert = "DiffAdd",      -- Line-level insertions
+        line_delete = "DiffDelete",   -- Line-level deletions
+
+        -- Character-level: accepts highlight group names or hex colors
+        -- If specified, these override char_brightness calculation
+        char_insert = nil,            -- Character-level insertions (nil = auto-derive)
+        char_delete = nil,            -- Character-level deletions (nil = auto-derive)
+
+        -- Brightness multiplier (only used when char_insert/char_delete are nil)
+        -- nil = auto-detect based on background (1.4 for dark, 0.92 for light)
+        char_brightness = nil,        -- Auto-adjust based on your colorscheme
+
+        -- Conflict sign highlights (for merge conflict views)
+        -- Accepts highlight group names or hex colors (e.g., "#f0883e")
+        -- nil = use default fallback chain
+        conflict_sign = nil,          -- Unresolved: DiagnosticSignWarn -> #f0883e
+        conflict_sign_resolved = nil, -- Resolved: Comment -> #6e7681
+        conflict_sign_accepted = nil, -- Accepted: GitSignsAdd -> DiagnosticSignOk -> #3fb950
+        conflict_sign_rejected = nil, -- Rejected: GitSignsDelete -> DiagnosticSignError -> #f85149
+      },
+
+      -- Diff view behavior
+      diff = {
+        disable_inlay_hints = true,         -- Disable inlay hints in diff windows for cleaner view
+        max_computation_time_ms = 5000,     -- Maximum time for diff computation (VSCode default)
+        hide_merge_artifacts = false,       -- Hide merge tool temp files (*.orig, *.BACKUP.*, *.BASE.*, *.LOCAL.*, *.REMOTE.*)
+        original_position = "left",         -- Position of original (old) content: "left" or "right"
+        conflict_ours_position = "right",   -- Position of ours (:2) in conflict view: "left" or "right"
+      },
+
+      -- Explorer panel configuration
+      explorer = {
+        position = "left",  -- "left" or "bottom"
+        width = 40,         -- Width when position is "left" (columns)
+        height = 15,        -- Height when position is "bottom" (lines)
+        indent_markers = true,  -- Show indent markers in tree view (│, ├, └)
+        initial_focus = "explorer",  -- Initial focus: "explorer", "original", or "modified"
+        icons = {
+          folder_closed = "",  -- Nerd Font folder icon (customize as needed)
+          folder_open = "",    -- Nerd Font folder-open icon
+        },
+        view_mode = "list",    -- "list" or "tree"
+        file_filter = {
+          ignore = {},  -- Glob patterns to hide (e.g., {"*.lock", "dist/*"})
+        },
+      },
+
+      -- History panel configuration (for :CodeDiff history)
+      history = {
+        position = "bottom",  -- "left" or "bottom" (default: bottom)
+        width = 40,           -- Width when position is "left" (columns)
+        height = 15,          -- Height when position is "bottom" (lines)
+        initial_focus = "history",  -- Initial focus: "history", "original", or "modified"
+        view_mode = "list",   -- "list" or "tree" for files under commits
+      },
+
+      -- Keymaps in diff view
+      keymaps = {
+        view = {
+          quit = "q",                    -- Close diff tab
+          toggle_explorer = "<leader>B",  -- Toggle explorer visibility (explorer mode only)
+          next_hunk = "hn",   -- Jump to next change
+          prev_hunk = "hp",   -- Jump to previous change
+          next_file = "fn",   -- Next file in explorer/history mode
+          prev_file = "fp",   -- Previous file in explorer/history mode
+          diff_get = "do",    -- Get change from other buffer (like vimdiff)
+          diff_put = "dp",    -- Put change to other buffer (like vimdiff)
+          open_in_prev_tab = "gf", -- Open current buffer in previous tab (or create one before)
+          toggle_stage = "-", -- Stage/unstage current file (works in explorer and diff buffers)
+        },
+        explorer = {
+          select = "<CR>",    -- Open diff for selected file
+          hover = "K",        -- Show file diff preview
+          refresh = "R",      -- Refresh git status
+          toggle_view_mode = "i",  -- Toggle between 'list' and 'tree' views
+          stage_all = "S",    -- Stage all files
+          unstage_all = "U",  -- Unstage all files
+          restore = "X",      -- Discard changes (restore file)
+        },
+        history = {
+          select = "<CR>",    -- Select commit/file or toggle expand
+          toggle_view_mode = "i",  -- Toggle between 'list' and 'tree' views
+        },
+        conflict = {
+          accept_incoming = "<leader>ct",  -- Accept incoming (theirs/left) change
+          accept_current = "<leader>co",   -- Accept current (ours/right) change
+          accept_both = "<leader>cb",      -- Accept both changes (incoming first)
+          discard = "<leader>cx",          -- Discard both, keep base
+          next_conflict = "]x",            -- Jump to next conflict
+          prev_conflict = "[x",            -- Jump to previous conflict
+          diffget_incoming = "2do",        -- Get hunk from incoming (left/theirs) buffer
+          diffget_current = "3do",         -- Get hunk from current (right/ours) buffer
+        },
+      },
+    },
+  }
 }

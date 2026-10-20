@@ -1,9 +1,8 @@
 -- Keymaps are automatically loaded on the VeryLazy event
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
-
 vim.keymap.set("n", "<leader>sv", ":source $MYVIMRC<cr>", { noremap = true })
-vim.keymap.set("n", "<c-f>", ":Ag ", { noremap = true })
+vim.keymap.set("n", "<leader><c-f>", ":Ag ", { noremap = true })
 vim.keymap.set("n", "<leader><leader>", ":Telescope find_files<cr>", { noremap = true })
 vim.keymap.set("n", "<leader>r", "<cmd>History<cr>", { noremap = true })
 vim.keymap.set("n", "<leader>F", "<cmd>Telescope git_files<cr>", { noremap = true })
@@ -28,3 +27,10 @@ vim.keymap.set("n", "<leader>cx", ":w <bar> %bd <bar> e# <bar> bd# <CR>", { desc
 vim.keymap.set("n", "qq", vim.cmd.ccl, { desc = "Close quickfix list" })
 vim.keymap.set("i", "<c-j>", 'copilot#Accept("")', { expr=true, noremap = true, silent = true, replace_keycodes = false })
 vim.keymap.set("n", "<leader>jff", '<cmd>JsonFormatFile<cr>')
+vim.keymap.set("n", "<leader>D", '<cmd>CodeDiff develop...HEAD<cr>')
+vim.keymap.set("n", "<leader>d1", '<cmd>CodeDiff HEAD~1<cr>')
+vim.keymap.set("n", "<leader>d2", '<cmd>CodeDiff HEAD~2<cr>')
+vim.keymap.set("n", "<leader>d3", '<cmd>CodeDiff HEAD~3<cr>')
+vim.keymap.set("n", "<leader>h", function()
+  vim.o.background = vim.o.background == "dark" and "light" or "dark"
+end, { desc = "Toggle background light/dark" })
